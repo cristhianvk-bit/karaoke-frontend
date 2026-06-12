@@ -20,7 +20,7 @@ function getHeaders() {
 }
 
 if (!TOKEN) {
-    window.location.href = 'login.html';
+    window.location.href = 'index.html';
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -360,7 +360,7 @@ function configurarEventos() {
             } finally {
                 localStorage.removeItem('token');
                 localStorage.removeItem('usuario');
-                window.location.href = 'login.html';
+                window.location.href = 'index.html';
             }
         });
     }

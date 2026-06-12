@@ -26,7 +26,7 @@ const LIMITES = {
 };
  
 if (!TOKEN) {
-    window.location.href = 'login.html';
+    window.location.href = 'index.html';
 } else {
     document.addEventListener('DOMContentLoaded', iniciarPagina);
 }
@@ -225,7 +225,7 @@ function configurarBotones() {
             } finally {
                 localStorage.removeItem('token');
                 localStorage.removeItem('usuario');
-                window.location.href = 'login.html';
+                window.location.href = 'index.html';
             }
         });
     }

@@ -20,7 +20,7 @@ try {
 }
 
 if (!token) {
-    window.location.href = "login.html";
+    window.location.href = "index.html";
 }
 
 /* API CALL */
@@ -39,7 +39,7 @@ async function apiCall(endpoint, method = 'GET', body = null) {
 
     if (respuesta.status === 401) {
         localStorage.clear();
-        window.location.href = "login.html";
+        window.location.href = "index.html";
         return;
     }
 
@@ -159,7 +159,7 @@ function configurarBotones() {
                 console.error('Error al cerrar sesión:', error);
             } finally {
                 localStorage.clear();
-                window.location.href = 'login.html';
+                window.location.href = 'index.html';
             }
         });
     }

@@ -16,7 +16,7 @@ let rentasCache = [];
 let ordenActual = null;
 
 if (!TOKEN) {
-    window.location.href = 'login.html';
+    window.location.href = 'index.html';
 } else {
     document.addEventListener('DOMContentLoaded', iniciarPagina);
 }
@@ -929,7 +929,7 @@ function configurarLogout() {
             } finally {
                 localStorage.removeItem('token');
                 localStorage.removeItem('usuario');
-                window.location.href = 'login.html';
+                window.location.href = 'index.html';
             }
         });
     }

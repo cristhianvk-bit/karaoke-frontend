@@ -33,7 +33,7 @@ async function apiCall(endpoint, method = 'GET', body = null) {
     const respuesta = await fetch(`${API_URL}${endpoint}`, options);
     if (respuesta.status === 401) {
         localStorage.clear();
-        window.location.href = "login.html";
+        window.location.href = "index.html";
         return;
     }
     if (!respuesta.ok) {
