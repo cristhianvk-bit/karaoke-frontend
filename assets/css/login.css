@@ -36,6 +36,37 @@ body{
     box-shadow:0 15px 35px rgba(0,0,0,.12);
 }
 
+.link-manual {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    background: linear-gradient(135deg, #4f46e5, #6366f1);
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
+    transition: all 0.3s ease;
+}
+
+.link-manual:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(79, 70, 229, 0.4);
+    background: linear-gradient(135deg, #4338ca, #4f46e5);
+}
+
+.link-manual i {
+    font-size: 18px;
+}
+
+.link-manual:active {
+    transform: scale(0.97);
+}
+
+
 /* PANEL IZQUIERDO */
 
 .panel-izquierdo{
