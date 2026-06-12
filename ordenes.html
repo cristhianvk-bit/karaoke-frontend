@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>After Dark - Órdenes Activas</title>
+    <link rel="stylesheet" href="assets/css/ordenes.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <div class="contenedor">
+        <aside class="menu-lateral">
+
+            <div class="logo-sistema">
+                <h2>AFTER DARK</h2>
+                <p>Karaoke · Bar</p>
+            </div>
+            <nav>
+                <ul>
+                    <li class="activo">
+                        <a href="ordenes.html">
+                            <i class="fa-solid fa-receipt"></i>
+                            Órdenes
+                        </a>
+                    </li>
+                    <li>
+                        <a href="inventario.html">
+                            <i class="fa-solid fa-boxes-stacked"></i>
+                            Gestión
+                        </a>
+                    </li>
+                    <li>
+                        <a href="pagos.html">
+                            <i class="fa-solid fa-credit-card"></i>
+                            Historial de Pagos
+                        </a>
+                    </li>
+                    <li data-rol="admin">
+                        <a href="usuarios.html">
+                            <i class="fa-solid fa-users"></i>
+                            Usuarios
+                        </a>
+                    </li>
+                    <li data-rol="admin">
+                        <a href="reportes.html">
+                            <i class="fa-solid fa-chart-pie"></i>
+                            Reportes
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="menu-footer">
+                <a href="login.html" class="link-logout">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    Cerrar Sesión
+                </a>
+            </div>
+        </aside>
+
+        <!-- CONTENIDO PRINCIPAL  -->
+        <main class="contenido">
+            <div class="cabecera">
+                <div>
+                    <h1>Órdenes Activas</h1>
+                    <p>Visualiza y administra todas las órdenes abiertas</p>
+                </div>
+
+                <div class="cabecera-derecha">
+                    <div class="usuario-info">
+                        <i class="fa-solid fa-user-circle"></i>
+                        <span id="nombreUsuario">Administrador</span>
+                        <span class="badge-rol" id="badgeRol">Admin</span>
+                    </div>
+                    <button class="boton-nueva" id="btnNuevaOrden">
+                        <i class="fa-solid fa-plus"></i>
+                        Nueva Orden
+                    </button>
+                </div>
+            </div>
+
+            <!-- TARJETAS RESUMEN -->
+            <div class="resumen-superior">
+                <div class="tarjeta-resumen">
+                    <div class="tarjeta-icono azul">
+                        <i class="fa-solid fa-receipt"></i>
+                    </div>
+                    <div>
+                        <h3>Órdenes Activas</h3>
+                        <span id="statOrdenes">0</span>
+                    </div>
+                </div>
+
+                <div class="tarjeta-resumen">
+                    <div class="tarjeta-icono morado">
+                        <i class="fa-solid fa-door-open"></i>
+                    </div>
+                    <div>
+                        <h3>Cuartos Ocupados</h3>
+                        <span id="statCuartos">0</span>
+                    </div>
+                </div>
+
+                <div class="tarjeta-resumen">
+                    <div class="tarjeta-icono verde">
+                        <i class="fa-solid fa-table"></i>
+                    </div>
+                    <div>
+                        <h3>Mesas Ocupadas</h3>
+                        <span id="statMesas">0</span>
+                    </div>
+                </div>
+
+                <div class="tarjeta-resumen">
+                    <div class="tarjeta-icono dorado">
+                        <i class="fa-solid fa-money-bill-wave"></i>
+                    </div>
+                    <div>
+                        <h3>Ingresos del Día</h3>
+                        <span id="statIngresos">Bs 0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FILTROS -->
+            <div class="barra-filtros">
+                <div class="input-busqueda">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" id="buscarOrden" placeholder="Buscar por folio o espacio...">
+                </div>
+                <select id="filtroEstado">
+                    <option value="">Todos los estados</option>
+                    <option value="pendiente">Pendiente</option>
+                    <option value="parcial">Parcial</option>
+                    <option value="pagado">Pagado</option>
+                </select>
+                <select id="filtroEspacio">
+                    <option value="">Todos los espacios</option>
+                    <option value="cuarto">Cuartos</option>
+                    <option value="mesa">Mesas</option>
+                    <option value="barra">Barra</option>
+                </select>
+            </div>
+
+            <!-- TABLA -->
+            <div class="contenedor-tabla">
+                <table class="tabla-ordenes">
+                    <thead>
+                        <tr>
+                            <th>Folio</th>
+                            <th>Espacio</th>
+                            <th>Personas</th>
+                            <th>Estado</th>
+                            <th>Total</th>
+                            <th>Pagado</th>
+                            <th>Apertura</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cuerpoTablaOrdenes">
+                        <!-- auto llenado -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!--VER DETALLE DE ORDEN -->
+    <div class="modal-overlay" id="modalVerDetalle" style="display:none;">
+        <div class="modal-contenido modal-grande">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-receipt"></i> Detalle de Orden</h2>
+                <button class="modal-cerrar" onclick="cerrarModal('modalVerDetalle')">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Info general -->
+                <div class="detalle-grid">
+                    <div class="detalle-item">
+                        <label>Folio</label>
+                        <span id="detalleFolio">-</span>
+                    </div>
+                    <div class="detalle-item">
+                        <label>Espacio</label>
+                        <span id="detalleEspacio">-</span>
+                    </div>
+                    <div class="detalle-item">
+                        <label>Personas</label>
+                        <span id="detallePersonas">-</span>
+                    </div>
+                    <div class="detalle-item">
+                        <label>Estado</label>
+                        <span id="detalleEstado">-</span>
+                    </div>
+                    <div class="detalle-item">
+                        <label>Empleado</label>
+                        <span id="detalleEmpleado">-</span>
+                    </div>
+                    <div class="detalle-item">
+                        <label>Apertura</label>
+                        <span id="detalleApertura">-</span>
+                    </div>
+                    <div class="detalle-item total">
+                        <label>Total</label>
+                        <span id="detalleTotal">Bs 0</span>
+                    </div>
+                    <div class="detalle-item pagado">
+                        <label>Pagado</label>
+                        <span id="detallePagado">Bs 0</span>
+                    </div>
+                    <div class="detalle-item pendiente">
+                        <label>Saldo Pendiente</label>
+                        <span id="detallePendiente">Bs 0</span>
+                    </div>
+                </div>
+
+                <!-- Notas -->
+                <div id="detalleNotasContainer" class="detalle-notas" style="display:none;">
+                    <label><i class="fa-solid fa-note-sticky"></i> Notas</label>
+                    <p id="detalleNotas"></p>
+                </div>
+
+                <!-- Productos -->
+                <div class="productos-seccion">
+                    <h3><i class="fa-solid fa-wine-bottle"></i> Productos</h3>
+                    <table class="tabla-productos">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                                <th>Precio Unit.</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody id="detalleProductos">
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Rentas (solo para cuartos) -->
+                <div class="rentas-seccion">
+                    <h3><i class="fa-solid fa-clock"></i> Rentas</h3>
+                    <table class="tabla-productos">
+                        <thead>
+                            <tr>
+                                <th>Inicio</th>
+                                <th>Fin</th>
+                                <th>Horas</th>
+                                <th>Monto</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="detalleRentas">
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagos registrados -->
+                <div class="pagos-seccion">
+                    <h3><i class="fa-solid fa-credit-card"></i> Pagos Registrados</h3>
+                    <div id="detallePagosLista" class="pagos-lista">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- COBRAR  -->
+    <div class="modal-overlay" id="modalCobrar" style="display:none;">
+        <div class="modal-contenido">
+            <div class="modal-header" style="background: linear-gradient(135deg, #059669, #065f46);">
+                <h2><i class="fa-solid fa-dollar-sign"></i> Registrar Pago</h2>
+                <button class="modal-cerrar" onclick="cerrarModal('modalCobrar')">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Info de la orden -->
+                <div class="cobrar-info">
+                    <div class="cobrar-info-item">
+                        <span>Orden:</span>
+                        <strong id="cobrarFolio">-</strong>
+                    </div>
+                    <div class="cobrar-info-item">
+                        <span>Total:</span>
+                        <strong id="cobrarTotal">Bs 0</strong>
+                    </div>
+                    <div class="cobrar-info-item">
+                        <span>Pagado:</span>
+                        <strong id="cobrarPagado">Bs 0</strong>
+                    </div>
+                    <div class="cobrar-info-item destacado">
+                        <span>Saldo Pendiente:</span>
+                        <strong id="cobrarPendiente">Bs 0</strong>
+                    </div>
+                </div>
+
+                <!-- Formulario de pago -->
+                <form id="formPago">
+                    <input type="hidden" id="pagoOrderId">
+                    
+                    <div class="form-grupo">
+                        <label>Monto a pagar *</label>
+                        <input type="number" id="pagoMonto" step="0.01" min="0.01" placeholder="0.00" required>
+                    </div>
+
+                    <div class="form-grupo">
+                        <label>Método de pago *</label>
+                        <select id="pagoMetodo" required>
+                            <option value="">Seleccionar...</option>
+                            <option value="1">Efectivo</option>
+                            <option value="2">QR</option>
+                            <option value="3">Tarjeta</option>
+                            <option value="4">A cuenta</option>
+                        </select>
+                    </div>
+
+                    <div class="form-grupo">
+                        <label>Tipo de pago *</label>
+                        <select id="pagoTipo" required>
+                            <option value="1">Total</option>
+                            <option value="2">Parcial</option>
+                        </select>
+                    </div>
+
+                    <div class="form-grupo">
+                        <label>Referencia (opcional)</label>
+                        <input type="text" id="pagoReferencia" placeholder="Nro. de operación, etc.">
+                    </div>
+
+                    <div class="form-grupo">
+                        <label>Notas (opcional)</label>
+                        <textarea id="pagoNotas" rows="2" placeholder="Observaciones del pago..."></textarea>
+                    </div>
+
+                    <div class="form-botones">
+                        <button type="button" class="btn-cancelar" onclick="cerrarModal('modalCobrar')">
+                            <i class="fa-solid fa-xmark"></i> Cancelar
+                        </button>
+                        <button type="submit" class="btn-confirmar verde">
+                            <i class="fa-solid fa-check"></i> Registrar Pago
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!--EDITAR ORDEN-->
+    <div class="modal-overlay" id="modalEditar" style="display:none;">
+        <div class="modal-contenido modal-grande">
+            <div class="modal-header" style="background: linear-gradient(135deg, #d97706, #92400e);">
+                <h2><i class="fa-solid fa-pen"></i> Editar Orden</h2>
+                <button class="modal-cerrar" onclick="cerrarModal('modalEditar')">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Info de la orden -->
+                <div class="editar-info">
+                    <span>Orden: <strong id="editarFolio">-</strong></span>
+                    <span>Espacio: <strong id="editarEspacio">-</strong></span>
+                    <span>Estado: <strong id="editarEstado">-</strong></span>
+                </div>
+
+                <!-- Buscador de productos -->
+                <div class="editar-buscador">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" id="editarBuscarProducto" placeholder="Buscar producto para agregar...">
+                </div>
+
+                <!-- Catalogo de productos -->
+                <div class="editar-catalogo" id="editarCatalogo">
+                </div>
+
+                <!-- Items actuales de la orden -->
+                <h3 style="margin-top:24px; color:#1e1b4b;">
+                    <i class="fa-solid fa-list"></i> Productos en la orden
+                </h3>
+                <table class="tabla-productos">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Precio Unit.</th>
+                            <th>Subtotal</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="editarItemsOrden">
+                    </tbody>
+                </table>
+
+                <div class="form-botones" style="margin-top:20px;">
+                    <button type="button" class="btn-cancelar" onclick="cerrarModal('modalEditar')">
+                        <i class="fa-solid fa-xmark"></i> Cerrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--ANULAR ORDEN-->
+    <div class="modal-overlay" id="modalAnular" style="display:none;">
+        <div class="modal-contenido modal-pequeno">
+            <div class="modal-header" style="background: linear-gradient(135deg, #dc2626, #991b1b);">
+                <h2><i class="fa-solid fa-triangle-exclamation"></i> Anular Orden</h2>
+                <button class="modal-cerrar" onclick="cerrarModal('modalAnular')">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="anular-advertencia">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <p>¿Estás seguro de que deseas anular la orden <strong id="anularFolio">-</strong>?</p>
+                    <p class="anular-texto">Esta acción no se puede deshacer.</p>
+                </div>
+                <input type="hidden" id="anularOrderId">
+                <div class="form-botones">
+                    <button type="button" class="btn-cancelar" onclick="cerrarModal('modalAnular')">
+                        <i class="fa-solid fa-xmark"></i> Cancelar
+                    </button>
+                    <button type="button" class="btn-confirmar rojo" id="btnConfirmarAnular">
+                        <i class="fa-solid fa-ban"></i> Sí, Anular Orden
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- AGREGAR CANTIDAD  -->
+
+    <div class="modal-overlay" id="modalCantidad" style="display:none;">
+        <div class="modal-contenido modal-pequeno">
+            <div class="modal-header" style="background: linear-gradient(135deg, #7c3aed, #5b21b6);">
+                <h2><i class="fa-solid fa-cart-plus"></i> Agregar Producto</h2>
+                <button class="modal-cerrar" onclick="cerrarModal('modalCantidad')">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="cantidadProductoNombre" style="font-size:16px; font-weight:600; margin-bottom:16px; color:#1e1b4b;">
+                    -
+                </p>
+                <p id="cantidadProductoStock" style="font-size:13px; color:#6b7280; margin-bottom:16px;">
+                    Stock disponible: -
+                </p>
+                <div class="form-grupo">
+                    <label>Cantidad *</label>
+                    <input type="number" id="cantidadInput" min="1" value="1" required>
+                </div>
+                <input type="hidden" id="cantidadProductId">
+                <div class="form-botones">
+                    <button type="button" class="btn-cancelar" onclick="cerrarModal('modalCantidad')">
+                        <i class="fa-solid fa-xmark"></i> Cancelar
+                    </button>
+                    <button type="button" class="btn-confirmar" id="btnConfirmarCantidad">
+                        <i class="fa-solid fa-plus"></i> Agregar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/ordenes.js"></script>
+
+</body>
+</html>

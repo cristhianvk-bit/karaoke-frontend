@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>After Dark - Nueva Orden</title>
+
+    <link rel="stylesheet" href="assets/css/nueva_orden.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" referrerpolicy="no-referrer">
+</head>
+<body>
+
+    <div class="contenedor">
+
+        <aside class="menu-lateral">
+            <div class="logo-sistema">
+                <h2>AFTER DARK</h2>
+                <p>Karaoke · Bar</p>
+            </div>
+            <nav>
+                <ul>
+                    <li class="activo">
+                        <a href="ordenes.html">
+                            <i class="fa-solid fa-receipt"></i>
+                            Órdenes
+                        </a>
+                    </li>
+                    <li>
+                        <a href="inventario.html">
+                            <i class="fa-solid fa-layer-group"></i>
+                            Gestión
+                        </a>
+                    </li>
+                    <li>
+                        <a href="pagos.html">
+                            <i class="fa-solid fa-credit-card"></i>
+                            Historial de Pagos
+                        </a>
+                    </li>
+                    <li data-rol="admin">
+                        <a href="usuarios.html">
+                            <i class="fa-solid fa-users"></i>
+                            Usuarios
+                        </a>
+                    </li>
+                    <li data-rol="admin">
+                        <a href="reportes.html">
+                            <i class="fa-solid fa-chart-pie"></i>
+                            Reportes
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="menu-footer">
+                <a href="login.html" class="link-logout">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    Cerrar Sesión
+                </a>
+            </div>
+        </aside>
+
+        <main class="contenido">
+            <div class="cabecera">
+                <div>
+                    <h1>Nueva Orden</h1>
+                    <p>Crear una nueva orden para un espacio</p>
+                </div>
+                <div class="cabecera-derecha">
+                    <div class="usuario-info">
+                        <i class="fa-solid fa-user-circle"></i>
+                        <span id="nombreUsuario">Administrador</span>
+                        <span class="badge-rol" id="badgeRol">Admin</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DATOS DE LA ORDEN -->
+            <div class="card-seccion">
+                <div class="titulo-seccion">
+                    <i class="fa-solid fa-file-invoice"></i>
+                    Datos de la Orden
+                </div>
+                <div class="grid-formulario">
+                    <div class="grupo-campo">
+                        <label>Espacio</label>
+                        <select id="espacio">
+                            <option value="">Seleccionar espacio</option>
+                            <!-- Se llena dinámicamente -->
+                        </select>
+                    </div>
+
+                    <div class="grupo-campo">
+                        <label>Personas</label>
+                        <input type="number" min="1" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" placeholder="Cantidad de personas" id="inputPersonas">
+                    </div>
+
+                    <div class="grupo-campo grupo-completo">
+                        <label>Observaciones</label>
+                        <textarea rows="3" placeholder="Observaciones de la orden..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CATÁLOGO DE BEBIDAS -->
+            <div class="seccion-doble">
+
+                <div class="panel-productos">
+                    <div class="titulo-seccion">
+                        <i class="fa-solid fa-wine-bottle"></i>
+                        Catálogo de Bebidas
+                    </div>
+
+                    <!-- CATEGORÍAS -->
+                    <div class="categorias-container" id="categoriasContainer">
+                        <button class="btn-categoria activo" data-categoria="todas">
+                            <i class="fa-solid fa-border-all"></i>
+                            Todas
+                        </button>
+                    </div>
+
+                    <!-- BUSCADOR -->
+                    <div class="barra-busqueda">
+                        <i class="fa-solid fa-search"></i>
+                        <input type="text" id="buscarProducto" placeholder="Buscar bebida...">
+                    </div>
+
+                    <!-- PRODUCTOS (GRID) -->
+                    <div class="grid-productos" id="gridProductos">
+                        <!-- Se llena dinámicamente desde la API -->
+                    </div>
+                </div>
+
+                <!-- DERECHA: RESUMEN -->
+                <div class="panel-resumen">
+                    <div class="titulo-seccion">
+                        <i class="fa-solid fa-receipt"></i>
+                        Resumen
+                    </div>
+
+                    <div class="resumen-item">
+                        <span>Productos</span>
+                        <strong id="resumenProductos">Bs 0</strong>
+                    </div>
+
+                    <div class="resumen-item">
+                        <span>Espacio</span>
+                        <strong id="resumenEspacio">Bs 0</strong>
+                    </div>
+
+                    <div class="resumen-item">
+                        <span>Descuento</span>
+                        <strong id="resumenDescuento">Bs 0</strong>
+                    </div>
+
+                    <hr>
+
+                    <div class="resumen-total">
+                        <span>Total</span>
+                        <strong id="resumenTotal">Bs 0</strong>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- DETALLE DE LA ORDEN -->
+            <div class="card-seccion">
+                <div class="titulo-seccion">
+                    <i class="fa-solid fa-list"></i>
+                    Detalle de la Orden
+                </div>
+                <div class="contenedor-tabla">
+                    <table class="tabla-detalle">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                                <th>Precio</th>
+                                <th>Subtotal</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="detalleOrden">
+                            <tr>
+                                <td colspan="5" style="text-align:center; padding:20px; color:#888;">
+                                    No hay productos agregados
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- BOTONES -->
+            <div class="acciones-finales">
+                <button class="btn-cancelar" id="btnCancelar">
+                    <i class="fa-solid fa-xmark"></i>
+                    Cancelar
+                </button>
+                <button class="btn-guardar" id="btnGuardar">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    Guardar Orden
+                </button>
+                <button class="btn-pagar" id="btnPagar">
+                    <i class="fa-solid fa-dollar-sign"></i>
+                    Guardar y Pagar
+                </button>
+            </div>
+
+            <!-- MODAL DE PAGO -->
+            <div class="modal-overlay" id="modalPago">
+                <div class="modal-contenido">
+                    <div class="modal-header" style="background: linear-gradient(135deg, #059669, #065f46);">
+                        <h2><i class="fa-solid fa-dollar-sign"></i> Registrar Pago</h2>
+                        <button class="modal-cerrar" onclick="cerrarModalPago()">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="cobrar-info">
+                            <div class="cobrar-info-item">
+                                <span>Orden:</span>
+                                <strong id="pagoFolio">-</strong>
+                            </div>
+                            <div class="cobrar-info-item">
+                                <span>Total:</span>
+                                <strong id="pagoTotal">Bs 0</strong>
+                            </div>
+                            <div class="cobrar-info-item destacado">
+                                <span>Monto a pagar:</span>
+                                <strong id="pagoPendiente">Bs 0</strong>
+                            </div>
+                        </div>
+
+                        <!-- FORMULARIO DE PAGO -->
+                        <form id="formPago">
+                            <div class="form-grupo">
+                                <label>Monto a pagar *</label>
+                                <input type="number" id="pagoMonto" step="0.01" min="0.01" placeholder="0.00" required>
+                            </div>
+
+                            <div class="form-grupo">
+                                <label>Método de pago *</label>
+                                <select id="pagoMetodo" required>
+                                    <option value="">Seleccionar...</option>
+                                    <option value="1">Efectivo</option>
+                                    <option value="2">QR</option>
+                                    <option value="3">Tarjeta</option>
+                                    <option value="4">A cuenta</option>
+                                </select>
+                            </div>
+
+                            <div class="form-grupo">
+                                <label>Tipo de pago *</label>
+                                <select id="pagoTipo" required>
+                                    <option value="1">Total</option>
+                                    <option value="2">Parcial</option>
+                                </select>
+                            </div>
+
+                            <div class="form-grupo">
+                                <label>Referencia (opcional)</label>
+                                <input type="text" id="pagoReferencia" placeholder="Nro. de operación, etc.">
+                            </div>
+
+                            <div class="form-grupo">
+                                <label>Notas (opcional)</label>
+                                <textarea id="pagoNotas" rows="2" placeholder="Observaciones del pago..."></textarea>
+                            </div>
+
+                            <div class="form-botones">
+                                <button type="button" class="btn-cancelar" onclick="cerrarModalPago()">
+                                    <i class="fa-solid fa-xmark"></i> Cancelar
+                                </button>
+                                <button type="submit" class="btn-confirmar verde">
+                                    <i class="fa-solid fa-check"></i> Registrar Pago
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+    </div>
+
+<script src="assets/js/nueva_orden.js"></script>
+</body>
+</html>

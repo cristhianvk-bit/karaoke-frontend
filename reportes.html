@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+ 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>After Dark - Reportes</title>
+    <link rel="stylesheet" href="assets/css/ordenes.css">
+    <link rel="stylesheet" href="assets/css/reportes.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+ 
+<body>
+ 
+<div class="contenedor">
+ 
+    <aside class="menu-lateral">
+        <div class="logo-sistema">
+            <h2>AFTER DARK</h2>
+            <p>Karaoke · Bar</p>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="ordenes.html"><i class="fa-solid fa-receipt"></i> Órdenes</a></li>
+                <li><a href="inventario.html"><i class="fa-solid fa-boxes-stacked"></i> Gestión</a></li>
+                <li><a href="pagos.html"><i class="fa-solid fa-credit-card"></i>Historial de Pagos</a></li>
+                <li data-rol="admin"><a href="usuarios.html"><i class="fa-solid fa-users"></i> Usuarios</a></li>
+                <li class="activo" data-rol="admin"><a href="reportes.html"><i class="fa-solid fa-chart-pie"></i> Reportes</a></li>
+            </ul>
+        </nav>
+        <div class="menu-footer">
+            <a href="login.html" class="link-logout">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Cerrar Sesión
+            </a>
+        </div>
+    </aside>
+ 
+    <main class="contenido">
+ 
+        <div class="cabecera">
+            <div>
+                <h1>Reportes del Sistema</h1>
+                <p>Estadísticas, ventas, productos, espacios y rendimiento</p>
+            </div>
+            <div class="cabecera-derecha">
+                <div class="usuario-info">
+                    <i class="fa-solid fa-user-circle"></i>
+                    <span id="nombreUsuario">Administrador</span>
+                    <span class="badge-rol" id="badgeRol">Admin</span>
+                </div>
+            </div>
+        </div>
+ 
+        <!-- TARJETAS RESUMEN -->
+        <div class="resumen-superior">
+            <div class="tarjeta-resumen">
+                <div class="tarjeta-icono verde"><i class="fa-solid fa-money-bill-wave"></i></div>
+                <div><h3>Ventas del Día</h3><span id="statVentasDia">Bs 0</span></div>
+            </div>
+            <div class="tarjeta-resumen">
+                <div class="tarjeta-icono azul"><i class="fa-solid fa-chart-line"></i></div>
+                <div><h3>Ventas del Mes</h3><span id="statVentasMes">Bs 0</span></div>
+            </div>
+            <div class="tarjeta-resumen">
+                <div class="tarjeta-icono morado"><i class="fa-solid fa-receipt"></i></div>
+                <div><h3>Órdenes Cerradas</h3><span id="statOrdenesCerradas">0</span></div>
+            </div>
+            <div class="tarjeta-resumen">
+                <div class="tarjeta-icono dorado"><i class="fa-solid fa-box-open"></i></div>
+                <div><h3>Productos Vendidos</h3><span id="statProductosVendidos">0</span></div>
+            </div>
+        </div>
+ 
+        <!-- FILTROS CON LABELS -->
+        <div class="barra-filtros">
+            <div class="grupo-filtro">
+                <label for="fechaInicio">
+                    <i class="fa-solid fa-calendar-day"></i>
+                    Fecha Inicio
+                </label>
+                <input type="date" class="input-fecha" id="fechaInicio">
+            </div>
+ 
+            <div class="grupo-filtro">
+                <label for="fechaFin">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    Fecha Fin
+                </label>
+                <input type="date" class="input-fecha" id="fechaFin">
+            </div>
+ 
+            <div class="grupo-filtro">
+                <label for="tipoReporte">
+                    <i class="fa-solid fa-list"></i>
+                    Tipo de Reporte
+                </label>
+                <select id="tipoReporte">
+                    <option value="ventas">Reporte de Ventas</option>
+                    <option value="productos">Top Productos</option>
+                    <option value="espacios">Órdenes por Espacio</option>
+                    <option value="pagos">Resumen de Pagos</option>
+                    <option value="stock-bajo">Stock Bajo</option>
+                </select>
+            </div>
+ 
+            <div class="grupo-filtro">
+                <label>&nbsp;</label>
+                <button class="btn-generar" id="btnGenerar">
+                    <i class="fa-solid fa-filter"></i>
+                    Generar Reporte
+                </button>
+            </div>
+        </div>
+ 
+        <!-- ACCIONES DEL REPORTE -->
+        <div class="acciones-reportes">
+            <button class="btn-exportar-pdf" id="btnExportarPDF">
+                <i class="fa-solid fa-file-pdf"></i>
+                Exportar PDF
+            </button>
+            <button class="btn-exportar-excel" id="btnExportarExcel">
+                <i class="fa-solid fa-file-excel"></i>
+                Exportar Excel
+            </button>
+            <button class="btn-imprimir" id="btnImprimir">
+                <i class="fa-solid fa-print"></i>
+                Imprimir
+            </button>
+        </div>
+ 
+        <!-- TABLA REPORTES -->
+        <div class="contenedor-tabla" id="contenedorTabla">
+            <table class="tabla-ordenes" id="tablaReportes">
+                <thead id="theadReportes">
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Referencia</th>
+                        <th>Categoría</th>
+                        <th>Usuario</th>
+                        <th>Monto</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tbodyReportes">
+                    <tr>
+                        <td colspan="7" style="text-align:center; padding:30px; color:#9ca3af;">
+                            <i class="fa-solid fa-chart-pie" style="font-size:40px; margin-bottom:10px; display:block;"></i>
+                            Selecciona un tipo de reporte y haz clic en "Generar Reporte"
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+ 
+        <!-- RESUMEN INFERIOR -->
+        <div class="panel-resumen-reportes">
+            <div class="card-resumen-reporte">
+                <i class="fa-solid fa-money-bill-wave"></i>
+                <div>
+                    <h4>Total Ventas</h4>
+                    <span id="resumenTotalVentas">Bs 0</span>
+                </div>
+            </div>
+            <div class="card-resumen-reporte">
+                <i class="fa-solid fa-box-open"></i>
+                <div>
+                    <h4>Productos Vendidos</h4>
+                    <span id="resumenProductosVendidos">0</span>
+                </div>
+            </div>
+            <div class="card-resumen-reporte">
+                <i class="fa-solid fa-door-open"></i>
+                <div>
+                    <h4>Órdenes Procesadas</h4>
+                    <span id="resumenOrdenes">0</span>
+                </div>
+            </div>
+            <div class="card-resumen-reporte">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <div>
+                    <h4>Stock Bajo</h4>
+                    <span id="resumenStockBajo">0</span>
+                </div>
+            </div>
+        </div>
+ 
+        <!-- VER DETALLE -->
+        <div id="modalDetalle" class="modal-reportes" style="display:none;">
+            <div class="modal-contenido-reporte">
+                <div class="modal-header-reporte">
+                    <h2><i class="fa-solid fa-file-invoice"></i> Detalle del Reporte</h2>
+                    <button class="btn-cerrar-reporte" onclick="cerrarModalDetalle()">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="modal-body-reporte" id="detalleContenido">
+                    <!-- automitoco se llena -->
+                </div>
+            </div>
+        </div>
+ 
+    </main>
+</div>
+ 
+<script src="assets/js/reportes.js"></script>
+ 
+</body>
+</html>

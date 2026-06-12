@@ -1,0 +1,244 @@
+
+.badge-metodo {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.badge-metodo.qr {
+    background: #ede9fe;
+    color: #6d28d9;
+}
+
+.badge-metodo.efectivo {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.badge-metodo.tarjeta {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+/* BOTON IMPRIMIR */
+
+.btn-imprimir {
+    border: none;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: #f3f4f6;
+    color: #374151;
+    transition: .2s;
+}
+
+.btn-imprimir:hover {
+    background: #374151;
+    color: white;
+}
+
+.modal-pagos {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.55);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 999;
+}
+
+.modal-contenido {
+    width: 600px;
+    max-width: 95%;
+
+    background: white;
+
+    border-radius: 16px;
+
+    overflow: hidden;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,.25);
+}
+
+.modal-header {
+    background: linear-gradient(
+        90deg,
+        #2d1b69,
+        #4c1d95
+    );
+
+    color: white;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 18px 22px;
+}
+
+.modal-header h2 {
+    font-size: 18px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-cerrar {
+    border: none;
+
+    background: transparent;
+
+    color: white;
+
+    cursor: pointer;
+
+    font-size: 22px;
+}
+
+.contenido-recibo {
+    padding: 25px;
+}
+
+.recibo-info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.recibo-info p {
+    font-size: 15px;
+    color: #374151;
+}
+
+/* TABLA */
+
+.tabla-ordenes td {
+    vertical-align: middle;
+}
+
+/* BOTONES DE ACCIONES EN PAGOS */
+
+/* Botón Ver */
+.btn-ver.btn-recibo {
+    background: #ede9fe;
+    color: #5b21b6;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+    text-decoration: none;
+}
+
+.btn-ver.btn-recibo:hover {
+    background: #7c3aed;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(124, 58, 237, 0.3);
+}
+
+/* Botón Imprimir */
+.btn-imprimir {
+    background: #f3f4f6;
+    color: #374151;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+}
+
+.btn-imprimir:hover {
+    background: #374151;
+    color: white;
+    transform: translateY(-1px);
+}
+
+/* Botón Anular (solo admin) */
+.btn-anular {
+    background: #fee2e2;
+    color: #991b1b;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+}
+
+.btn-anular:hover {
+    background: #dc2626;
+    color: white;
+    transform: translateY(-1px);
+}
+
+/* Quitar el outline negro al hacer clic */
+.btn-ver.btn-recibo:focus,
+.btn-imprimir:focus,
+.btn-anular:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2);
+}
+
+/* Quitar el borde por defecto del navegador */
+.btn-ver.btn-recibo,
+.btn-imprimir,
+.btn-anular {
+    outline: none !important;
+    border: none !important;
+}
+
+/* Asegurar que los botones se vean bien en la tabla */
+.tabla-ordenes .acciones {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Estilo para el botón de imprimir en el modal */
+.modal-pagos .btn-imprimir {
+    background: linear-gradient(135deg, #7c3aed, #5b21b6);
+    color: white;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+}
+
+.modal-pagos .btn-imprimir:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(124, 58, 237, 0.4);
+    background: linear-gradient(135deg, #6d28d9, #4c1d95);
+}
+
+
+@media(max-width:768px){
+
+    .modal-contenido{
+
+        width:95%;
+    }
+
+}

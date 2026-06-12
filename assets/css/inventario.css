@@ -1,0 +1,349 @@
+
+.tabs-inventario {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.tab-btn {
+    border: none;
+    background: white;
+    color: #6b7280;
+    padding: 12px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Segoe UI', sans-serif;
+    transition: .2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,.05);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tab-btn:hover { 
+    background: #ede9fe; color: #5b21b6; 
+}
+
+.tab-btn.activo { 
+    background: #7c3aed; color: white; 
+}
+
+.tab-contenido { 
+    display: none; 
+}
+
+.tab-contenido.activo { 
+    display: block; 
+}
+
+.modal-inventario {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 20px;
+}
+
+.modal-contenido {
+    width: 100%;
+    max-width: 950px;
+    background: white;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,.25);
+}
+
+/* modal de formulario mas angosto */
+.modal-form {
+    max-width: 680px;
+}
+
+.modal-header {
+    background: linear-gradient(90deg, #2d1b69, #4c1d95);
+    color: white;
+    padding: 18px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h2 {
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-cerrar {
+    border: none;
+    background: transparent;
+    color: white;
+    font-size: 22px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.btn-cerrar:hover { opacity: 0.7; }
+
+.modal-contenido .contenedor-tabla {
+    border-radius: 0;
+    box-shadow: none;
+}
+
+/* FORMULARIO */
+
+.modal-body {
+    padding: 28px 24px 24px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin-bottom: 24px;
+}
+
+.form-grupo {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.form-grupo label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+}
+
+.form-grupo input,
+.form-grupo select,
+.form-grupo textarea {
+    padding: 11px 14px;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 10px;
+    outline: none;
+    font-size: 14px;
+    font-family: 'Segoe UI', sans-serif;
+    color: #374151;
+    background: white;
+    transition: border-color 0.2s;
+}
+
+.form-grupo input:focus,
+.form-grupo select:focus,
+.form-grupo textarea:focus {
+    border-color: #7c3aed;
+}
+
+.form-grupo textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Ocupa las 2 columnas */
+.form-grupo-full { grid-column: 1 / -1; }
+
+/* Checkbox */
+.form-grupo-check {
+    justify-content: flex-end;
+    padding-bottom: 4px;
+}
+
+.label-check {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+    cursor: pointer;
+}
+
+.label-check input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #7c3aed;
+    cursor: pointer;
+    padding: 0;
+    border: none;
+}
+
+.requerido { color: #dc2626; }
+
+.form-hint {
+    font-size: 12px;
+    color: #9ca3af;
+    margin-top: -4px;
+}
+
+/* BOTONES DELFORMULARIO */
+
+.modal-acciones {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding-top: 8px;
+    border-top: 1px solid #f3f4f6;
+}
+
+.btn-guardar-modal {
+    background: linear-gradient(135deg, #7c3aed, #5b21b6);
+    color: white;
+    border: none;
+    padding: 12px 22px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(124,58,237,0.3);
+}
+
+.btn-guardar-modal:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(124,58,237,0.4);
+}
+
+.btn-cancelar-modal {
+    border: none;
+    background: #fee2e2;
+    color: #dc2626;
+    padding: 12px 22px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+}
+
+.btn-cancelar-modal:hover {
+    background: #dc2626;
+    color: white;
+}
+
+/* BOTÓN MOVIMIENTO */
+
+.btn-movimiento {
+    border: none;
+    background: #dbeafe;
+    color: #1e40af;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: .2s;
+}
+
+.btn-movimiento:hover { 
+    background: #2563eb; 
+    color: white; 
+}
+
+/* COLORES DE STOCK */
+
+.stock-alto  { 
+    color: #059669; 
+    font-weight: 700; 
+}
+.stock-medio { 
+    color: #d97706; 
+    font-weight: 700; 
+}
+.stock-bajo  { 
+    color: #dc2626; 
+    font-weight: 700; 
+}
+
+/* SCROLL EN MODALES DE FORMULARIO */
+
+.modal-inventario .modal-contenido {
+    max-height: 90vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-inventario .modal-header {
+    flex-shrink: 0;
+}
+
+.modal-inventario .modal-body {
+    overflow-y: auto;
+    flex: 1;
+}
+
+.modal-form .form-grid {
+    margin-bottom: 16px;
+}
+
+.modal-form .modal-acciones {
+    flex-shrink: 0;
+    position: sticky;
+    bottom: 0;
+    background: white;
+    padding: 16px 24px;
+    margin: 0 -24px -24px;
+    border-top: 1px solid #f3f4f6;
+    z-index: 10;
+}
+
+.modal-inventario .modal-contenido::-webkit-scrollbar,
+.modal-inventario .modal-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-inventario .modal-contenido::-webkit-scrollbar-track,
+.modal-inventario .modal-body::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.modal-inventario .modal-contenido::-webkit-scrollbar-thumb,
+.modal-inventario .modal-body::-webkit-scrollbar-thumb {
+    background: #7c3aed;
+    border-radius: 10px;
+}
+
+.modal-inventario .modal-contenido::-webkit-scrollbar-thumb:hover,
+.modal-inventario .modal-body::-webkit-scrollbar-thumb:hover {
+    background: #5b21b6;
+}
+
+@media (max-width: 900px) {
+    .tabs-inventario { 
+        flex-direction: column; 
+    }
+    .modal-contenido { 
+        max-width: 100%; 
+    }
+    .form-grid { 
+        grid-template-columns: 1fr; 
+    }
+    .form-grupo-full { 
+        grid-column: 1; 
+    }
+    .modal-acciones { 
+        flex-direction: column-reverse; 
+    }
+    .btn-guardar-modal,
+    .btn-cancelar-modal { 
+        justify-content: center; 
+    }
+}

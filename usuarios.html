@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+ 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>After Dark - Usuarios</title>
+    <link rel="stylesheet" href="assets/css/ordenes.css">
+    <link rel="stylesheet" href="assets/css/usuarios.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+ 
+<body>
+ 
+<div class="contenedor">
+ 
+    <aside class="menu-lateral">
+        <div class="logo-sistema">
+            <h2>AFTER DARK</h2>
+            <p>Karaoke · Bar</p>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="ordenes.html"><i class="fa-solid fa-receipt"></i> Órdenes</a></li>
+                <li><a href="inventario.html"><i class="fa-solid fa-boxes-stacked"></i> Gestión</a></li>
+                <li><a href="pagos.html"><i class="fa-solid fa-credit-card"></i>Historial de Pagos</a></li>
+                <li class="activo" data-rol="admin"><a href="usuarios.html"><i class="fa-solid fa-users"></i> Usuarios</a></li>
+                <li data-rol="admin"><a href="reportes.html"><i class="fa-solid fa-chart-pie"></i> Reportes</a></li>
+            </ul>
+        </nav>
+        <div class="menu-footer">
+            <a href="login.html" class="link-logout">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Cerrar Sesión
+            </a>
+        </div>
+    </aside>
+ 
+    <main class="contenido">
+ 
+        <div class="cabecera">
+            <div>
+                <h1>Gestión de Usuarios</h1>
+                <p>Administra usuarios, roles y accesos del sistema</p>
+            </div>
+            <div class="cabecera-derecha">
+                <div class="usuario-info">
+                    <i class="fa-solid fa-user-circle"></i>
+                    <span id="nombreUsuario">Administrador</span>
+                    <span class="badge-rol" id="badgeRol">Admin</span>
+                </div>
+                <button class="boton-nueva" id="btnNuevoUsuario">
+                    <i class="fa-solid fa-user-plus"></i>
+                    Nuevo Usuario
+                </button>
+            </div>
+        </div>
+ 
+        <!-- TARJETAS RESUMEN -->
+        <div class="resumen-superior">
+            <div class="tarjeta-resumen">
+                <div class="tarjeta-icono verde"><i class="fa-solid fa-user-check"></i></div>
+                <div><h3>Usuarios Activos</h3><span id="statActivos">0</span></div>
+            </div>
+            <div class="tarjeta-resumen">
+                <div class="tarjeta-icono azul"><i class="fa-solid fa-user-shield"></i></div>
+                <div><h3>Administradores</h3><span id="statAdmins">0</span></div>
+            </div>
+            <div class="tarjeta-resumen">
+                <div class="tarjeta-icono morado"><i class="fa-solid fa-users"></i></div>
+                <div><h3>Empleados</h3><span id="statEmpleados">0</span></div>
+            </div>
+            <div class="tarjeta-resumen">
+                <div class="tarjeta-icono dorado"><i class="fa-solid fa-user-slash"></i></div>
+                <div><h3>Inactivos</h3><span id="statInactivos">0</span></div>
+            </div>
+        </div>
+ 
+        <!-- FILTROS -->
+        <div class="barra-filtros">
+            <div class="input-busqueda">
+                <i class="fa-solid fa-search"></i>
+                <input type="text" id="buscarUsuario" placeholder="Buscar usuario, nombre o correo...">
+            </div>
+            <select id="filtroRol">
+                <option value="">Todos los roles</option>
+                <option value="1">Administrador</option>
+                <option value="2">Empleado</option>
+            </select>
+            <select id="filtroEstado">
+                <option value="">Todos los estados</option>
+                <option value="1">Activo</option>
+                <option value="0">Inactivo</option>
+            </select>
+        </div>
+ 
+        <!-- TABLA USUARIOS -->
+        <div class="contenedor-tabla">
+            <table class="tabla-ordenes">
+                <thead>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Nombre</th>
+                        <th>Correo</th>
+                        <th>Rol</th>
+                        <th>Estado</th>
+                        <th>Último Acceso</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaUsuarios">
+                    <!-- automitoco se llena -->
+                </tbody>
+            </table>
+        </div>
+ 
+        <!-- NUEVO USUARIO - CORREGIDO -->
+        <div id="modalNuevoUsuario" class="modal-usuarios" style="display:none;">
+            <div class="modal-contenido">
+                <div class="modal-header">
+                    <h2><i class="fa-solid fa-user-plus"></i> Nuevo Usuario</h2>
+                    <button class="btn-cerrar" onclick="cerrarModal('modalNuevoUsuario')">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <form id="formNuevoUsuario" class="formulario-usuario" novalidate>
+                    <div class="grupo-formulario">
+                        <label>Nombre <span class="requerido">*</span></label>
+                        <input type="text" id="nuevoNombre" maxlength="100" placeholder="Ej: Juan"
+                               pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$" required>
+                        <small class="mensaje-error" id="errorNombre"></small>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label>Apellido</label>
+                        <input type="text" id="nuevoApellido" maxlength="100" placeholder="Ej: Pérez"
+                               pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$">
+                        <small class="mensaje-error" id="errorApellido"></small>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label>Usuario <span class="requerido">*</span></label>
+                        <input type="text" id="nuevoUsername" maxlength="50" placeholder="juanperez"
+                               pattern="^[a-zA-Z0-9_]+$" required>
+                        <small class="mensaje-error" id="errorUsername"></small>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label>Correo <span class="requerido">*</span></label>
+                        <input type="email" id="nuevoEmail" placeholder="correo@afterdark.com" required>
+                        <small class="mensaje-error" id="errorEmail"></small>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label>Contraseña <span class="requerido">*</span></label>
+                        <input type="password" id="nuevoPassword" minlength="6"
+                               placeholder="Mínimo 6 caracteres" required>
+                        <small class="mensaje-error" id="errorPassword"></small>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label>Rol <span class="requerido">*</span></label>
+                        <select id="nuevoRol" required>
+                            <option value="1">Administrador</option>
+                            <option value="2" selected>Empleado</option>
+                        </select>
+                    </div>
+                    <!-- ❌ ELIMINADO: Checkbox de activo (ahora es por defecto) -->
+                    <div class="acciones-formulario">
+                        <button type="button" class="btn-cancelar-modal" onclick="cerrarModal('modalNuevoUsuario')">
+                            <i class="fa-solid fa-xmark"></i> Cancelar
+                        </button>
+                        <button type="submit" class="boton-nueva">
+                            <i class="fa-solid fa-floppy-disk"></i> Guardar Usuario
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+ 
+        <!-- EDITAR USUARIO -->
+        <div id="modalEditarUsuario" class="modal-usuarios" style="display:none;">
+            <div class="modal-contenido">
+                <div class="modal-header">
+                    <h2><i class="fa-solid fa-user-pen"></i> Editar Usuario</h2>
+                    <button class="btn-cerrar" onclick="cerrarModal('modalEditarUsuario')">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <form id="formEditarUsuario" class="formulario-usuario" novalidate>
+                    <input type="hidden" id="editUserId">
+                    <div class="grupo-formulario">
+                        <label>Nombre <span class="requerido">*</span></label>
+                        <input type="text" id="editNombre" maxlength="100"
+                               pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$" required>
+                        <small class="mensaje-error" id="errorEditNombre"></small>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label>Apellido</label>
+                        <input type="text" id="editApellido" maxlength="100"
+                               pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$">
+                        <small class="mensaje-error" id="errorEditApellido"></small>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label>Usuario <span class="requerido">*</span></label>
+                        <input type="text" id="editUsername" maxlength="50"
+                               pattern="^[a-zA-Z0-9_]+$" required>
+                        <small class="mensaje-error" id="errorEditUsername"></small>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label>Correo <span class="requerido">*</span></label>
+                        <input type="email" id="editEmail" required>
+                        <small class="mensaje-error" id="errorEditEmail"></small>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label>Rol <span class="requerido">*</span></label>
+                        <select id="editRol" required>
+                            <option value="1">Administrador</option>
+                            <option value="2">Empleado</option>
+                        </select>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label>Estado</label>
+                        <select id="editEstado">
+                            <option value="1">Activo</option>
+                            <option value="0">Inactivo</option>
+                        </select>
+                    </div>
+                    <div class="acciones-formulario">
+                        <button type="button" class="btn-cancelar-modal" onclick="cerrarModal('modalEditarUsuario')">
+                            <i class="fa-solid fa-xmark"></i> Cancelar
+                        </button>
+                        <button type="submit" class="boton-nueva">
+                            <i class="fa-solid fa-floppy-disk"></i> Actualizar Usuario
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+ 
+        <!-- VER DETALLE USUARIO -->
+        <div id="modalVerUsuario" class="modal-usuarios" style="display:none;">
+            <div class="modal-contenido" style="max-width:550px;">
+                <div class="modal-header">
+                    <h2><i class="fa-solid fa-user"></i> Detalle del Usuario</h2>
+                    <button class="btn-cerrar" onclick="cerrarModal('modalVerUsuario')">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="detalle-usuario">
+                    <div class="detalle-avatar">
+                        <i class="fa-solid fa-user-circle"></i>
+                    </div>
+                    <h3 id="verNombreCompleto">-</h3>
+                    <p id="verUsername" class="ver-username">@-</p>
+                   
+                    <div class="detalle-grid">
+                        <div class="detalle-item">
+                            <label>Correo</label>
+                            <span id="verEmail">-</span>
+                        </div>
+                        <div class="detalle-item">
+                            <label>Rol</label>
+                            <span id="verRol">-</span>
+                        </div>
+                        <div class="detalle-item">
+                            <label>Estado</label>
+                            <span id="verEstado">-</span>
+                        </div>
+                        <div class="detalle-item">
+                            <label>Registrado</label>
+                            <span id="verFecha">-</span>
+                        </div>
+<!--                         <div class="detalle-item">
+                            <label>Último Acceso</label>
+                            <span id="verUltimoAcceso">-</span>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+ 
+        <!-- CAMBIAR CONTRASEÑA -->
+        <div id="modalCambiarPassword" class="modal-usuarios" style="display:none;">
+            <div class="modal-contenido" style="max-width:450px;">
+                <div class="modal-header" style="background: linear-gradient(135deg, #d97706, #92400e);">
+                    <h2><i class="fa-solid fa-key"></i> Cambiar Contraseña</h2>
+                    <button class="btn-cerrar" onclick="cerrarModal('modalCambiarPassword')">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <form id="formCambiarPassword" class="formulario-usuario" style="grid-template-columns: 1fr;" novalidate>
+                    <input type="hidden" id="passwordUserId">
+                    <p style="margin-bottom:16px; color:#6b7280; font-size:14px;">
+                        Cambiando contraseña para: <strong id="passwordUserName">-</strong>
+                    </p>
+                    <div class="grupo-formulario">
+                        <label>Nueva Contraseña <span class="requerido">*</span></label>
+                        <input type="password" id="nuevaPassInput" minlength="6"
+                               placeholder="Mínimo 6 caracteres" required>
+                        <small class="mensaje-error" id="errorNuevaPass"></small>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label>Confirmar Contraseña <span class="requerido">*</span></label>
+                        <input type="password" id="confirmPassInput" minlength="6"
+                               placeholder="Repite la contraseña" required>
+                        <small class="mensaje-error" id="errorConfirmPass"></small>
+                    </div>
+                    <div class="acciones-formulario">
+                        <button type="button" class="btn-cancelar-modal" onclick="cerrarModal('modalCambiarPassword')">
+                            <i class="fa-solid fa-xmark"></i> Cancelar
+                        </button>
+                        <button type="submit" class="boton-nueva" style="background: linear-gradient(135deg, #d97706, #92400e);">
+                            <i class="fa-solid fa-key"></i> Cambiar Contraseña
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+ 
+    </main>
+</div>
+ 
+<script src="assets/js/usuarios.js"></script>
+ 
+</body>
+</html>

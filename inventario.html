@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="es">
+ 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>After Dark - Inventario</title>
+    <link rel="stylesheet" href="assets/css/ordenes.css">
+    <link rel="stylesheet" href="assets/css/inventario.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+ 
+<body>
+ 
+<div class="contenedor">
+ 
+    <!-- MENU -->
+    <aside class="menu-lateral">
+        <div class="logo-sistema">
+            <h2>AFTER DARK</h2>
+            <p>Karaoke · Bar</p>
+        </div>
+        <nav>
+            <ul>
+                <li>
+                    <a href="ordenes.html">
+                        <i class="fa-solid fa-receipt"></i>
+                        Órdenes
+                    </a>
+                </li>
+                <li class="activo">
+                    <a href="inventario.html">
+                        <i class="fa-solid fa-layer-group"></i>
+                        Gestión
+                    </a>
+                </li>
+                <li>
+                    <a href="pagos.html">
+                        <i class="fa-solid fa-credit-card"></i>
+                        Historial de Pagos
+                    </a>
+                </li>
+                <li data-rol="admin">
+                    <a href="usuarios.html">
+                        <i class="fa-solid fa-users"></i>
+                        Usuarios
+                    </a>
+                </li>
+                <li data-rol="admin">
+                    <a href="reportes.html">
+                        <i class="fa-solid fa-chart-pie"></i>
+                        Reportes
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="menu-footer">
+            <a href="login.html" class="link-logout">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Cerrar Sesión
+            </a>
+        </div>
+    </aside>
+ 
+    <!-- CONTENIDO -->
+    <main class="contenido">
+ 
+        <div class="cabecera">
+            <div>
+                <h1>Gestión</h1>
+                <p>Administra productos y espacios del local</p>
+            </div>
+            <div class="cabecera-derecha">
+                <div class="usuario-info">
+                    <i class="fa-solid fa-user-circle"></i>
+                    <span id="nombreUsuario">Administrador</span>
+                    <span class="badge-rol" id="badgeRol">Admin</span>
+                </div>
+                <button class="boton-nueva admin-only" id="btnNuevo">
+                    <i class="fa-solid fa-plus"></i>
+                    <span id="txtBtnNuevo">Nuevo Producto</span>
+                </button>
+            </div>
+        </div>
+ 
+        <!-- TARJETAS -->
+        <div class="resumen-superior" style="grid-template-columns:repeat(4,1fr)">
+            <div class="tarjeta-resumen">
+                <div class="tarjeta-icono azul">
+                    <i class="fa-solid fa-box"></i>
+                </div>
+                <div><h3>Productos</h3><span id="statProductos">0</span></div>
+            </div>
+            <div class="tarjeta-resumen">
+                <div class="tarjeta-icono dorado">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <div><h3>Stock Bajo</h3><span id="statStockBajo">0</span></div>
+            </div>
+            <div class="tarjeta-resumen">
+                <div class="tarjeta-icono verde">
+                    <i class="fa-solid fa-warehouse"></i>
+                </div>
+                <div><h3>Espacios</h3><span id="statEspacios">0</span></div>
+            </div>
+            <div class="tarjeta-resumen">
+                <div class="tarjeta-icono morado">
+                    <i class="fa-solid fa-right-left"></i>
+                </div>
+                <div><h3>Movimientos Hoy</h3><span id="statMovimientos">0</span></div>
+            </div>
+        </div>
+ 
+        <!-- PESTAÑAS -->
+        <div class="tabs-inventario">
+            <button class="tab-btn activo" data-tab="productos">
+                <i class="fa-solid fa-box"></i> Productos
+            </button>
+            <button class="tab-btn" data-tab="espacios">
+                <i class="fa-solid fa-door-open"></i> Espacios
+            </button>
+        </div>
+ 
+        <!-- PRODUCTOS -->
+        <div class="tab-contenido activo" id="productos">
+            <div class="barra-filtros">
+                <div class="input-busqueda">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" id="buscarProducto" placeholder="Buscar producto...">
+                </div>
+                <select id="filtroCategoriaProd">
+                    <option value="">Todas las categorías</option>
+                </select>
+            </div>
+            <div class="contenedor-tabla">
+                <table class="tabla-ordenes">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Categoría</th>
+                            <th>Precio Venta</th>
+                            <th>Stock</th>
+                            <th>Mínimo</th>
+                            <th>Estado Stock</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyProductos">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+ 
+        <!-- ESPACIOS -->
+        <div class="tab-contenido" id="espacios">
+            <div class="barra-filtros">
+                <div class="input-busqueda">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" id="buscarEspacio" placeholder="Buscar espacio...">
+                </div>
+                <select id="filtroTipoEspacio">
+                    <option value="">Todos los tipos</option>
+                </select>
+            </div>
+            <div class="contenedor-tabla">
+                <table class="tabla-ordenes">
+                    <thead>
+                        <tr>
+                            <th>Espacio</th>
+                            <th>Tipo</th>
+                            <th>Capacidad</th>
+                            <th>Precio/Hora</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyEspacios">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+ 
+        <!-- VER PRODUCTO -->
+        <div id="modalVerProducto" class="modal-inventario" style="display:none;">
+            <div class="modal-contenido">
+                <div class="modal-header">
+                    <h2><i class="fa-solid fa-box"></i> Detalle del Producto</h2>
+                    <button class="btn-cerrar" onclick="cerrarModal('modalVerProducto')">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="detalle-grid">
+                        <div class="detalle-item"><label>Nombre</label><span id="verProdNombre">-</span></div>
+                        <div class="detalle-item"><label>Categoría</label><span id="verProdCategoria">-</span></div>
+                        <div class="detalle-item"><label>Unidad de Medida</label><span id="verProdUnidad">-</span></div>
+                        <div class="detalle-item"><label>Precio Venta</label><span id="verProdPrecio">Bs 0</span></div>
+                        <div class="detalle-item"><label>Costo</label><span id="verProdCosto">Bs 0</span></div>
+                        <div class="detalle-item"><label>Stock Actual</label><span id="verProdStock">0</span></div>
+                        <div class="detalle-item"><label>Stock Mínimo</label><span id="verProdMinimo">0</span></div>
+                        <div class="detalle-item"><label>Estado</label><span id="verProdEstado">-</span></div>
+                    </div>
+ 
+                    <div id="verProdDescripcionContainer" style="display:none;">
+                        <label style="font-size:13px; font-weight:600; color:#6b7280; display:block; margin-bottom:6px;">Descripción</label>
+                        <p id="verProdDescripcion" style="background:#f9fafb; padding:12px; border-radius:8px; font-size:14px; color:#374151;"></p>
+                    </div>
+ 
+                    <h3 style="margin-top:24px; font-size:16px; color:#1e1b4b; display:flex; align-items:center; gap:8px;">
+                        <i class="fa-solid fa-right-left"></i> Movimientos de Inventario
+                    </h3>
+                    <div class="contenedor-tabla" style="margin-top:12px;">
+                        <table class="tabla-ordenes">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Tipo</th>
+                                    <th>Cantidad</th>
+                                    <th>Stock Anterior</th>
+                                    <th>Stock Nuevo</th>
+                                    <th>Usuario</th>
+                                </tr>
+                            </thead>
+                            <tbody id="verProdMovimientos">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+ 
+        <!-- VER ESPACIO -->
+        <div id="modalVerEspacio" class="modal-inventario" style="display:none;">
+            <div class="modal-contenido">
+                <div class="modal-header">
+                    <h2><i class="fa-solid fa-door-open"></i> Detalle del Espacio</h2>
+                    <button class="btn-cerrar" onclick="cerrarModal('modalVerEspacio')">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="detalle-grid">
+                        <div class="detalle-item"><label>Nombre</label><span id="verEspNombre">-</span></div>
+                        <div class="detalle-item"><label>Tipo</label><span id="verEspTipo">-</span></div>
+                        <div class="detalle-item"><label>Capacidad</label><span id="verEspCapacidad">-</span></div>
+                        <div class="detalle-item"><label>Precio/Hora</label><span id="verEspPrecio">Bs 0</span></div>
+                        <div class="detalle-item"><label>Estado</label><span id="verEspEstado">-</span></div>
+                    </div>
+ 
+                    <h3 style="margin-top:24px; font-size:16px; color:#1e1b4b; display:flex; align-items:center; gap:8px;">
+                        <i class="fa-solid fa-clock-rotate-left"></i> Historial de Órdenes
+                    </h3>
+                    <div class="contenedor-tabla" style="margin-top:12px;">
+                        <table class="tabla-ordenes">
+                            <thead>
+                                <tr>
+                                    <th>Folio</th>
+                                    <th>Fecha</th>
+                                    <th>Personas</th>
+                                    <th>Total</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody id="verEspHistorial">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+ 
+        <!-- EDITAR PRODUCTO -->
+        <div id="modalEditarProducto" class="modal-inventario" style="display:none;">
+            <div class="modal-contenido modal-form">
+                <div class="modal-header">
+                    <h2><i class="fa-solid fa-pen"></i> Editar Producto</h2>
+                    <button class="btn-cerrar" onclick="cerrarModal('modalEditarProducto')">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="formEditarProducto" novalidate>
+                        <input type="hidden" id="editProdId">
+                        <div class="form-grid">
+                            <div class="form-grupo">
+                                <label>Nombre <span class="requerido">*</span></label>
+                                <input type="text" id="editProdNombre" maxlength="150" required>
+                                <small class="mensaje-error" id="errorEditProdNombre"></small>
+                            </div>
+                            <div class="form-grupo">
+                                <label>Categoría <span class="requerido">*</span></label>
+                                <select id="editProdCategoria" required></select>
+                            </div>
+                            <div class="form-grupo">
+                                <label>Unidad de Medida <span class="requerido">*</span></label>
+                                <select id="editProdUnidad" required></select>
+                            </div>
+                            <div class="form-grupo">
+                                <label>Precio de Venta (Bs) <span class="requerido">*</span></label>
+                                <input type="number" id="editProdPrecio" min="0.01" step="0.01" required>
+                                <small class="mensaje-error" id="errorEditProdPrecio"></small>
+                            </div>
+                            <div class="form-grupo">
+                                <label>Costo (Bs)</label>
+                                <input type="number" id="editProdCosto" min="0" step="0.01">
+                            </div>
+                            <div class="form-grupo">
+                                <label>Stock Mínimo</label>
+                                <input type="number" id="editProdMinimo" min="0" value="5">
+                            </div>
+                            <div class="form-grupo form-grupo-check">
+                                <label class="label-check">
+                                    <input type="checkbox" id="editProdActivo" checked>
+                                    Producto activo
+                                </label>
+                            </div>
+                            <div class="form-grupo form-grupo-full">
+                                <label>Descripción</label>
+                                <textarea id="editProdDescripcion" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-acciones">
+                            <button type="button" class="btn-cancelar-modal" onclick="cerrarModal('modalEditarProducto')">
+                                <i class="fa-solid fa-xmark"></i> Cancelar
+                            </button>
+                            <button type="submit" class="btn-guardar-modal">
+                                <i class="fa-solid fa-floppy-disk"></i> Actualizar Producto
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+ 
+        <!-- EDITAR ESPACIO -->
+        <div id="modalEditarEspacio" class="modal-inventario" style="display:none;">
+            <div class="modal-contenido modal-form">
+                <div class="modal-header">
+                    <h2><i class="fa-solid fa-pen"></i> Editar Espacio</h2>
+                    <button class="btn-cerrar" onclick="cerrarModal('modalEditarEspacio')">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="formEditarEspacio" novalidate>
+                        <input type="hidden" id="editEspId">
+                        <div class="form-grid">
+                            <div class="form-grupo">
+                                <label>Nombre <span class="requerido">*</span></label>
+                                <input type="text" id="editEspNombre" maxlength="100" required>
+                                <small class="mensaje-error" id="errorEditEspNombre"></small>
+                            </div>
+                            <div class="form-grupo">
+                                <label>Tipo de Espacio <span class="requerido">*</span></label>
+                                <select id="editEspTipo" required></select>
+                            </div>
+                            <div class="form-grupo">
+                                <label>Capacidad (personas)</label>
+                                <input type="number" id="editEspCapacidad" min="1">
+                            </div>
+                            <div class="form-grupo" id="editGrupoPrecioHora">
+                                <label>Precio por Hora (Bs)</label>
+                                <input type="number" id="editEspPrecioHora" min="0" step="0.01" value="0">
+                                <small class="form-hint">Solo aplica para Cuartos</small>
+                            </div>
+                            <div class="form-grupo form-grupo-check">
+                                <label class="label-check">
+                                    <input type="checkbox" id="editEspActivo" checked>
+                                    Espacio activo
+                                </label>
+                            </div>
+                        </div>
+                        <div class="modal-acciones">
+                            <button type="button" class="btn-cancelar-modal" onclick="cerrarModal('modalEditarEspacio')">
+                                <i class="fa-solid fa-xmark"></i> Cancelar
+                            </button>
+                            <button type="submit" class="btn-guardar-modal">
+                                <i class="fa-solid fa-floppy-disk"></i> Actualizar Espacio
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+ 
+        <!-- NUEVO PRODUCTO -->
+        <div id="modalNuevoProducto" class="modal-inventario" style="display:none;">
+            <div class="modal-contenido modal-form">
+                <div class="modal-header">
+                    <h2><i class="fa-solid fa-wine-bottle"></i> Nuevo Producto</h2>
+                    <button class="btn-cerrar" onclick="cerrarModal('modalNuevoProducto')">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="formNuevoProducto" novalidate>
+                        <div class="form-grid">
+                            <div class="form-grupo">
+                                <label>Nombre <span class="requerido">*</span></label>
+                                <input type="text" id="nuevoProdNombre" maxlength="150"
+                                       placeholder="Ej: Cerveza Paceña" required>
+                                <small class="mensaje-error" id="errorNuevoProdNombre"></small>
+                            </div>
+                            <div class="form-grupo">
+                                <label>Categoría <span class="requerido">*</span></label>
+                                <select id="nuevoProdCategoria" required>
+                                    <option value="">Seleccionar categoría</option>
+                                </select>
+                            </div>
+                            <div class="form-grupo">
+                                <label>Unidad de Medida <span class="requerido">*</span></label>
+                                <select id="nuevoProdUnidad" required>
+                                    <option value="">Seleccionar unidad</option>
+                                </select>
+                            </div>
+                            <div class="form-grupo">
+                                <label>Precio de Venta (Bs) <span class="requerido">*</span></label>
+                                <input type="number" id="nuevoProdPrecio" min="0.01" step="0.01"
+                                       placeholder="0.00" required>
+                                <small class="mensaje-error" id="errorNuevoProdPrecio"></small>
+                            </div>
+                            <div class="form-grupo">
+                                <label>Costo (Bs)</label>
+                                <input type="number" id="nuevoProdCosto" min="0" step="0.01" placeholder="0.00">
+                            </div>
+                            <div class="form-grupo">
+                                <label>Stock Inicial</label>
+                                <input type="number" id="nuevoProdStock" min="0" value="0">
+                            </div>
+                            <div class="form-grupo">
+                                <label>Stock Mínimo</label>
+                                <input type="number" id="nuevoProdMinimo" min="0" value="5">
+                            </div>
+                            <div class="form-grupo form-grupo-full">
+                                <label>Descripción</label>
+                                <textarea id="nuevoProdDescripcion" rows="3"
+                                          placeholder="Ej: Botella 650ml, importada..."></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-acciones">
+                            <button type="button" class="btn-cancelar-modal" onclick="cerrarModal('modalNuevoProducto')">
+                                <i class="fa-solid fa-xmark"></i> Cancelar
+                            </button>
+                            <button type="submit" class="btn-guardar-modal">
+                                <i class="fa-solid fa-floppy-disk"></i> Guardar Producto
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+ 
+        <!-- NUEVO ESPACIO -->
+        <div id="modalNuevoEspacio" class="modal-inventario" style="display:none;">
+            <div class="modal-contenido modal-form">
+                <div class="modal-header">
+                    <h2><i class="fa-solid fa-door-open"></i> Nuevo Espacio</h2>
+                    <button class="btn-cerrar" onclick="cerrarModal('modalNuevoEspacio')">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="formNuevoEspacio" novalidate>
+                        <div class="form-grid">
+                            <div class="form-grupo">
+                                <label>Nombre <span class="requerido">*</span></label>
+                                <input type="text" id="nuevoEspNombre" maxlength="100"
+                                       placeholder="Ej: Cuarto 3" required>
+                                <small class="mensaje-error" id="errorNuevoEspNombre"></small>
+                            </div>
+                            <div class="form-grupo">
+                                <label>Tipo de Espacio <span class="requerido">*</span></label>
+                                <select id="nuevoEspTipo" required>
+                                    <option value="">Seleccionar tipo</option>
+                                </select>
+                            </div>
+                            <div class="form-grupo">
+                                <label>Capacidad (personas)</label>
+                                <input type="number" id="nuevoEspCapacidad" min="1" placeholder="Ej: 8">
+                            </div>
+                            <div class="form-grupo" id="nuevoGrupoPrecioHora">
+                                <label>Precio por Hora (Bs)</label>
+                                <input type="number" id="nuevoEspPrecioHora" min="0" step="0.01"
+                                       value="0" placeholder="0.00">
+                                <small class="form-hint">Solo aplica para Cuartos</small>
+                            </div>
+                        </div>
+                        <div class="modal-acciones">
+                            <button type="button" class="btn-cancelar-modal" onclick="cerrarModal('modalNuevoEspacio')">
+                                <i class="fa-solid fa-xmark"></i> Cancelar
+                            </button>
+                            <button type="submit" class="btn-guardar-modal">
+                                <i class="fa-solid fa-floppy-disk"></i> Guardar Espacio
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+ 
+    </main>
+</div>
+ 
+<script src="assets/js/inventario.js"></script>
+ 
+</body>
+</html>

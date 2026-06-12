@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>After Dark - Pagos</title>
+    <link rel="stylesheet" href="assets/css/ordenes.css">
+    <link rel="stylesheet" href="assets/css/pagos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+<div class="contenedor">
+
+    <aside class="menu-lateral">
+        <div class="logo-sistema">
+            <h2>AFTER DARK</h2>
+            <p>Karaoke · Bar</p>
+        </div>
+        <nav>
+            <ul>
+                <li>
+                    <a href="ordenes.html">
+                        <i class="fa-solid fa-receipt"></i>
+                        Órdenes
+                    </a>
+                </li>
+                <li>
+                    <a href="inventario.html">
+                        <i class="fa-solid fa-boxes-stacked"></i>
+                        Gestión
+                    </a>
+                </li>
+                <li class="activo">
+                    <a href="pagos.html">
+                        <i class="fa-solid fa-credit-card"></i>
+                        Historial de Pagos
+                    </a>
+                </li>
+                <li data-rol="admin">
+                    <a href="usuarios.html">
+                        <i class="fa-solid fa-users"></i>
+                        Usuarios
+                    </a>
+                </li>
+                <li data-rol="admin">
+                    <a href="reportes.html">
+                        <i class="fa-solid fa-chart-pie"></i>
+                        Reportes
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="menu-footer">
+            <a href="login.html" class="link-logout">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Cerrar Sesión
+            </a>
+        </div>
+    </aside>
+
+    <main class="contenido">
+
+        <div class="cabecera">
+            <div>
+                <h1>Historial de Pagos</h1>
+                <p>Consulta todos los pagos registrados en el sistema</p>
+            </div>
+            <div class="cabecera-derecha">
+                <div class="usuario-info">
+                    <i class="fa-solid fa-user-circle"></i>
+                    <span id="nombreUsuario">Administrador</span>
+                    <span class="badge-rol" id="badgeRol">Admin</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- TARJETAS RESUMEN -->
+        <div class="resumen-superior">
+            <div class="tarjeta-resumen">
+                <div class="tarjeta-icono verde">
+                    <i class="fa-solid fa-money-bill-wave"></i>
+                </div>
+                <div>
+                    <h3>Cobrado Hoy</h3>
+                    <span id="statCobradoHoy">Bs 0</span>
+                </div>
+            </div>
+            <div class="tarjeta-resumen">
+                <div class="tarjeta-icono azul">
+                    <i class="fa-solid fa-calendar-days"></i>
+                </div>
+                <div>
+                    <h3>Cobrado Mes</h3>
+                    <span id="statCobradoMes">Bs 0</span>
+                </div>
+            </div>
+            <div class="tarjeta-resumen">
+                <div class="tarjeta-icono morado">
+                    <i class="fa-solid fa-qrcode"></i>
+                </div>
+                <div>
+                    <h3>Pagos QR</h3>
+                    <span id="statPagosQR">0</span>
+                </div>
+            </div>
+            <div class="tarjeta-resumen">
+                <div class="tarjeta-icono dorado">
+                    <i class="fa-solid fa-cash-register"></i>
+                </div>
+                <div>
+                    <h3>Efectivo</h3>
+                    <span id="statPagosEfectivo">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- FILTROS -->
+        <div class="barra-filtros">
+            <div class="input-busqueda">
+                <i class="fa-solid fa-search"></i>
+                <input type="text" id="buscarPago" placeholder="Buscar por folio, espacio o usuario...">
+            </div>
+            <select id="filtroMetodo">
+                <option value="">Todos los métodos</option>
+                <!-- automitoco se llena -->
+            </select>
+        </div>
+
+        <!-- TABLA PAGOS -->
+        <div class="contenedor-tabla">
+            <table class="tabla-ordenes">
+                <thead>
+                    <tr>
+                        <th>Folio</th>
+                        <th>Espacio</th>
+                        <th>Monto</th>
+                        <th>Método</th>
+                        <th>Tipo</th>
+                        <th>Referencia</th>
+                        <th>Fecha</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tbodyPagos">
+                    <!-- automitoco se llena -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- MODAL RECIBO -->
+        <div id="modalRecibo" class="modal-pagos" style="display:none;">
+            <div class="modal-contenido">
+                <div class="modal-header">
+                    <h2>
+                        <i class="fa-solid fa-file-invoice-dollar"></i>
+                        Detalle del Pago
+                    </h2>
+                    <button class="btn-cerrar" onclick="cerrarModalRecibo()">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="contenido-recibo">
+                    <div class="recibo-info">
+                        <p><strong>ID Pago:</strong> <span id="reciboId">-</span></p>
+                        <p><strong>Folio Orden:</strong> <span id="reciboFolio">-</span></p>
+                        <p><strong>Espacio:</strong> <span id="reciboEspacio">-</span></p>
+                        <p><strong>Monto:</strong> <span id="reciboMonto">Bs 0</span></p>
+                        <p><strong>Método de Pago:</strong> <span id="reciboMetodo">-</span></p>
+                        <p><strong>Tipo de Pago:</strong> <span id="reciboTipo">-</span></p>
+                        <p><strong>Referencia:</strong> <span id="reciboReferencia">-</span></p>
+                        <p><strong>Fecha:</strong> <span id="reciboFecha">-</span></p>
+                        <p><strong>Usuario:</strong> <span id="reciboUsuario">-</span></p>
+                        <div id="reciboNotasContainer" style="display:none;">
+                            <p><strong>Notas:</strong></p>
+                            <p id="reciboNotas" style="background:#f9fafb; padding:12px; border-radius:8px; margin-top:6px;">-</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<script src="assets/js/pagos.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,427 @@
+/* ====================================
+   USUARIOS.CSS - COMPLETO Y CORREGIDO
+==================================== */
+
+/* ROLES */
+.badge-admin {
+    background: #ede9fe;
+    color: #6d28d9;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.badge-empleado-tabla {
+    background: #d1fae5;
+    color: #065f46;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* ESTADOS */
+.estado-activo {
+    background: #d1fae5;
+    color: #065f46;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.estado-inactivo {
+    background: #fee2e2;
+    color: #991b1b;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* BOTONES DE ACCIÓN */
+.btn-ver {
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #ede9fe;
+    color: #5b21b6;
+    transition: .2s;
+    margin-right: 4px;
+}
+
+.btn-ver:hover {
+    background: #7c3aed;
+    color: white;
+}
+
+.btn-editar {
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #dbeafe;
+    color: #1d4ed8;
+    transition: .2s;
+    margin-right: 4px;
+}
+
+.btn-editar:hover {
+    background: #2563eb;
+    color: white;
+}
+
+.btn-reset {
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #fef3c7;
+    color: #92400e;
+    transition: .2s;
+    margin-right: 4px;
+}
+
+.btn-reset:hover {
+    background: #d97706;
+    color: white;
+}
+
+.btn-activar {
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #d1fae5;
+    color: #065f46;
+    transition: .2s;
+}
+
+.btn-activar:hover {
+    background: #059669;
+    color: white;
+}
+
+/* ====================================
+   MODAL - ESTRUCTURA PRINCIPAL
+==================================== */
+.modal-usuarios {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    backdrop-filter: blur(4px);
+}
+
+.modal-usuarios[style*="display: flex"] {
+    display: flex !important;
+}
+
+.modal-contenido {
+    width: 100%;
+    max-width: 700px;
+    max-height: 90vh;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    background: linear-gradient(90deg, #2d1b69, #4c1d95);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    flex-shrink: 0;
+}
+
+.modal-header h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+    margin: 0;
+}
+
+.btn-cerrar {
+    border: none;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.btn-cerrar:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg);
+}
+
+/* ====================================
+   FORMULARIO
+==================================== */
+.formulario-usuario {
+    padding: 28px 24px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    overflow-y: auto;
+}
+
+.grupo-formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.grupo-formulario label {
+    font-size: 13px;
+    color: #374151;
+    font-weight: 600;
+}
+
+.grupo-formulario input,
+.grupo-formulario select {
+    border: 1.5px solid #e5e7eb;
+    padding: 11px 14px;
+    border-radius: 10px;
+    outline: none;
+    font-size: 14px;
+    font-family: inherit;
+    transition: border-color 0.2s;
+}
+
+.grupo-formulario input:focus,
+.grupo-formulario select:focus {
+    border-color: #7c3aed;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+}
+
+/* Campo que ocupa todo el ancho */
+.grupo-formulario[style*="grid-column"] {
+    grid-column: 1 / -1;
+}
+
+/* Checkbox */
+.label-check {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+    cursor: pointer;
+}
+
+.label-check input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #7c3aed;
+    cursor: pointer;
+}
+
+/* ====================================
+   ACCIONES DEL FORMULARIO
+==================================== */
+.acciones-formulario {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 10px;
+    padding-top: 20px;
+    border-top: 1px solid #f3f4f6;
+}
+
+.boton-nueva {
+    background: linear-gradient(135deg, #7c3aed, #5b21b6);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+}
+
+.boton-nueva:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(124, 58, 237, 0.4);
+}
+
+.btn-cancelar-modal {
+    border: none;
+    background: #fee2e2;
+    color: #dc2626;
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+}
+
+.btn-cancelar-modal:hover {
+    background: #dc2626;
+    color: white;
+}
+
+/* ====================================
+   MODAL VER DETALLE
+==================================== */
+.detalle-usuario {
+    padding: 32px 28px;
+    text-align: center;
+}
+
+.detalle-avatar {
+    font-size: 80px;
+    color: #7c3aed;
+    margin-bottom: 12px;
+}
+
+.detalle-usuario h3 {
+    font-size: 24px;
+    color: #1e1b4b;
+    margin-bottom: 4px;
+}
+
+.ver-username {
+    color: #6b7280;
+    font-size: 14px;
+    margin-bottom: 28px;
+}
+
+.detalle-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    text-align: left;
+}
+
+.detalle-item {
+    background: #f9fafb;
+    padding: 14px 16px;
+    border-radius: 10px;
+    border-left: 4px solid #7c3aed;
+}
+
+.detalle-item label {
+    display: block;
+    font-size: 11px;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.detalle-item span {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1e1b4b;
+    word-break: break-word;
+}
+
+.requerido {
+    color: #dc2626;
+}
+
+
+
+@media (max-width: 768px) {
+    .formulario-usuario {
+        grid-template-columns: 1fr;
+    }
+    
+    .modal-contenido {
+        max-width: 95%;
+        margin: 20px;
+    }
+    
+    .detalle-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .acciones-formulario {
+        flex-direction: column-reverse;
+    }
+    
+    .boton-nueva,
+    .btn-cancelar-modal {
+        justify-content: center;
+        width: 100%;
+    }
+}
+
+/* Scroll personalizado para modales */
+.modal-contenido::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-contenido::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.modal-contenido::-webkit-scrollbar-thumb {
+    background: #7c3aed;
+    border-radius: 10px;
+}
+
+.modal-contenido::-webkit-scrollbar-thumb:hover {
+    background: #5b21b6;
+}
+
+/* =========================================
+   CONTROL DE ACCESO POR ROL
+   ========================================= */
+
+/* Por defecto, ocultar elementos de admin */
+[data-rol="admin"] {
+    display: none !important;
+}
+
+/* Cuando el body tiene la clase es-admin, mostrar elementos de admin */
+body.es-admin [data-rol="admin"] {
+    display: flex !important;
+}
+
+/* Para items de lista del menú lateral */
+body.es-admin li[data-rol="admin"] {
+    display: list-item !important;
+}
+
+/* Asegurar que los links se muestren correctamente */
+body.es-admin li[data-rol="admin"] a {
+    display: flex;
+}
